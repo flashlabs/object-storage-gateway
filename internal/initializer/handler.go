@@ -1,8 +1,11 @@
 package initializer
 
-import "log"
+import (
+	"context"
+	"log"
+)
 
-func Handler() error {
+func Handler(c context.Context) error {
 	log.Println("Initializing handlers")
 
 	return nil

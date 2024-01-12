@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -15,7 +16,9 @@ const (
 func main() {
 	log.Println("Spacelift Homework Object Storage")
 
-	if err := initApp(); err != nil {
+	c := context.Background()
+
+	if err := initApp(c); err != nil {
 		fmt.Println("error while executing initApp: %w", err)
 
 		os.Exit(appInitializationFailedCode)
@@ -24,13 +27,13 @@ func main() {
 	log.Println("App done")
 }
 
-func initApp() error {
-	err := initializer.Shards()
+func initApp(c context.Context) error {
+	err := initializer.Shards(c)
 	if err != nil {
 		return fmt.Errorf("error while initializing initializer.Shards: %w", err)
 	}
 
-	err = initializer.Handler()
+	err = initializer.Handler(c)
 	if err != nil {
 		return fmt.Errorf("error while executing initializer.Handler: %w", err)
 	}
