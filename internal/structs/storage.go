@@ -1,7 +1,9 @@
 package structs
 
-import "github.com/docker/docker/api/types"
+import (
+	"github.com/minio/minio-go/v7"
+)
 
 type Storage struct {
-	Container types.Container
+	Client *minio.Client
 }
