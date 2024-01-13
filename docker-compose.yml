@@ -38,7 +38,8 @@ services:
     # Feel free to change configuration options of this container, like the image, or the Dockerfile itself.
     build: .
     command: sleep 36000 # Changeme: Put in just so the container stays on after being started.
-    ports: [ "3000:3000" ]
+    # TODO: restore to 3000:3000
+    ports: [ "3001:3001" ]
     networks:
       amazin-object-storage:
         ipv4_address: 169.253.0.5
