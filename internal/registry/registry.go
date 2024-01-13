@@ -1,5 +1,5 @@
 package registry
 
-import "github.com/docker/docker/api/types"
+import "github.com/spacelift-io/homework-object-storage/internal/structs"
 
-var Shards map[string]types.Container
+var Shards map[uint8]structs.Storage

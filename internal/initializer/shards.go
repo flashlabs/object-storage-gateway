@@ -5,13 +5,18 @@ import (
 	"fmt"
 	"log"
 	"regexp"
+	"strconv"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
+
+	"github.com/spacelift-io/homework-object-storage/internal/registry"
+	"github.com/spacelift-io/homework-object-storage/internal/structs"
 )
 
 var (
-	reContainerNum = regexp.MustCompile(`[0-9]+`)
+	containerNumRegex = regexp.MustCompile(`[0-9]+`)
+	image             = "minio/minio"
 )
 
 func Shards(c context.Context) error {
@@ -22,19 +27,32 @@ func Shards(c context.Context) error {
 		return fmt.Errorf("error while executing client.NewClientWithOpts: %w", err)
 	}
 
-	// TODO: filter by name
+	// TODO: filter by image
 	containers, err := cli.ContainerList(c, types.ContainerListOptions{})
 	if err != nil {
 		return fmt.Errorf("error while executing cli.ContainerList: %w", err)
 	}
 
+	shards := make(map[uint8]structs.Storage)
+
 	for _, container := range containers {
-		fmt.Printf("%s %s %s\n", container.ID[:10], container.Image, container.Names)
+		if container.Image != image {
+			continue
+		}
 
-		name := container.Names[0]
+		containerNum, err := strconv.ParseInt(containerNumRegex.FindString(container.Names[0]), 10, 8)
+		if err != nil {
+			return fmt.Errorf("error while executing strconv.ParseInt: %w", err)
+		}
 
-		fmt.Println("name2 ", reContainerNum.FindString(name))
+		log.Println("Found container", container.ID[:12])
+
+		shards[uint8(containerNum)] = structs.Storage{
+			Container: container,
+		}
 	}
+
+	registry.Shards = shards
 
 	return nil
 }
