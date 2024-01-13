@@ -2,7 +2,6 @@ package initializer
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log"
 	"regexp"
@@ -13,6 +12,7 @@ import (
 
 	"github.com/spacelift-io/homework-object-storage/internal/registry"
 	"github.com/spacelift-io/homework-object-storage/internal/structs"
+	"github.com/spacelift-io/homework-object-storage/pkg"
 )
 
 var (
@@ -59,7 +59,7 @@ func Shards(c context.Context) error {
 	}
 
 	if len(shards) == 0 {
-		return errors.New("no storage container were found, no shards were created")
+		return pkg.ErrMissingStorageContainers
 	}
 
 	registry.Shards = shards
