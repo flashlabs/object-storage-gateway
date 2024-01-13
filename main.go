@@ -33,7 +33,12 @@ func initApp(c context.Context) error {
 		return fmt.Errorf("error while initializing initializer.Shards: %w", err)
 	}
 
-	err = initializer.Handler(c)
+	r, err := initializer.Router(c)
+	if err != nil {
+		return fmt.Errorf("error while executing initializer.Router: %w", err)
+	}
+
+	err = initializer.Handler(c, r)
 	if err != nil {
 		return fmt.Errorf("error while executing initializer.Handler: %w", err)
 	}
