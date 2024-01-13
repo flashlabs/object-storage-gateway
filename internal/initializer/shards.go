@@ -2,6 +2,7 @@ package initializer
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"regexp"
@@ -40,7 +41,12 @@ func Shards(c context.Context) error {
 			continue
 		}
 
-		containerNum, err := strconv.ParseInt(containerNumRegex.FindString(container.Names[0]), 10, 8)
+		numFound := containerNumRegex.FindString(container.Names[0])
+		if numFound == "" {
+			continue
+		}
+
+		containerNum, err := strconv.ParseInt(numFound, 10, 8)
 		if err != nil {
 			return fmt.Errorf("error while executing strconv.ParseInt: %w", err)
 		}
@@ -50,6 +56,10 @@ func Shards(c context.Context) error {
 		shards[uint8(containerNum)] = structs.Storage{
 			Container: container,
 		}
+	}
+
+	if len(shards) == 0 {
+		return errors.New("no storage container were found, no shards were created")
 	}
 
 	registry.Shards = shards
