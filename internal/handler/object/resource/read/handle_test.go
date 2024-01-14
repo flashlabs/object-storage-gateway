@@ -1,11 +1,13 @@
 package read_test
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/spacelift-io/homework-object-storage/internal/initializer"
 )
@@ -15,14 +17,16 @@ const (
 )
 
 func TestHandle(t *testing.T) {
+	c := context.Background()
+
 	r, err := initializer.Router()
-	assert.Nil(t, err)
+	require.NoError(t, err)
 
 	err = initializer.Handler(r)
-	assert.Nil(t, err)
+	require.NoError(t, err)
 
-	req, err := http.NewRequest(http.MethodGet, url, nil)
-	assert.Nil(t, err)
+	req, err := http.NewRequestWithContext(c, http.MethodGet, url, nil)
+	require.NoError(t, err)
 
 	rr := httptest.NewRecorder()
 	r.ServeHTTP(rr, req)

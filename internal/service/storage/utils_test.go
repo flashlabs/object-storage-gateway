@@ -33,15 +33,16 @@ var (
 
 func TestShardByID(t *testing.T) {
 	type args struct {
-		id     string
 		shards map[uint8]structs.Storage
+		id     string
 	}
+
 	tests := []struct {
-		name    string
 		args    args
+		err     error
+		name    string
 		want    uint8
 		wantErr bool
-		err     error
 	}{
 		{
 			name:    "expect error bc of empty shards",
@@ -149,6 +150,7 @@ func TestShardByID(t *testing.T) {
 			got, err := storage.ShardByID(tt.args.id)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("ShardByID() error = %v, wantErr %v", err, tt.wantErr)
+
 				return
 			}
 
