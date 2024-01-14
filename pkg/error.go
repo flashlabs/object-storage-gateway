@@ -7,4 +7,5 @@ var (
 	ErrContainerIPAddressNotFound = errors.New("IP address for container not found")
 	ErrObjectNotExists            = errors.New("object not found")
 	ErrNoStorageClientForGivenID  = errors.New("no storage client for given ID")
+	ErrNoShardsAvailable          = errors.New("no shards available to count the shard id")
 )
