@@ -1,0 +1,58 @@
+{
+	"info": {
+		"name": "Spacelift Homework Object Storage",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "object",
+			"item": [
+				{
+					"name": "read",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/object/asd1234",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"object",
+								"asd1234"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "replace",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Icing donut tart gummi bears gingerbread bonbon cake!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/object/asd1234",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"object",
+								"asd1234"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
