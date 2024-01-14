@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/spacelift-io/homework-object-storage/internal/initializer"
@@ -45,7 +44,15 @@ func initApp(c context.Context) error {
 		return fmt.Errorf("error while executing initializer.Handler: %w", err)
 	}
 
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), r))
+	srv, err := initializer.Server(r, port)
+	if err != nil {
+		return fmt.Errorf("error while executing initializer.Server: %w", err)
+	}
+
+	err = srv.ListenAndServe()
+	if err != nil {
+		return fmt.Errorf("error while executing srv.ListenAndServe: %w", err)
+	}
 
 	return nil
 }
