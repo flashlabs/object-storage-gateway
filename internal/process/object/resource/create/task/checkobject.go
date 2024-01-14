@@ -10,19 +10,17 @@ import (
 	"github.com/spacelift-io/homework-object-storage/internal/service/storage"
 )
 
+var (
+	objNotExistsErrorMessage = "The specified key does not exist."
+)
+
 func CheckObject(c context.Context, input checkobject.Input) (checkobject.Output, error) {
-	o, err := input.Client.GetObject(c, storage.BucketName, input.ID, minio.GetObjectOptions{})
-	if err != nil {
-		return checkobject.Output{}, fmt.Errorf("error while executing input.Client.GetObject: %w", err)
+	oi, err := input.Client.StatObject(c, storage.BucketName, input.ID, minio.StatObjectOptions{})
+	if err != nil && err.Error() != objNotExistsErrorMessage {
+		return checkobject.Output{}, fmt.Errorf("error while executing input.Client.StatObject: %w", err)
 	}
 
-	defer func(o *minio.Object) {
-		if ce := o.Close(); ce != nil {
-			err = ce
-		}
-	}(o)
-
 	return checkobject.Output{
-		Exists: true,
-	}, err
+		Exists: oi.Err == nil,
+	}, nil
 }
