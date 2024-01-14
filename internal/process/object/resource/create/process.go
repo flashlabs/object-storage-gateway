@@ -42,9 +42,10 @@ func Execute(c context.Context, input Input) (Output, error) {
 	}
 
 	_, err = task.Upload(c, upload.Input{
-		Client:  mc,
-		ID:      input.Vars["id"],
-		Payload: input.Payload,
+		Client:        mc,
+		ID:            input.Vars["id"],
+		Payload:       input.Payload,
+		ContentLength: input.ContentLength,
 	})
 	if err != nil {
 		return Output{}, fmt.Errorf("error while executing task.Upload: %w", err)

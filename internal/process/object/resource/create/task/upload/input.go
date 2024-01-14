@@ -7,7 +7,8 @@ import (
 )
 
 type Input struct {
-	Payload io.Reader
-	Client  *minio.Client
-	ID      string
+	Payload       io.Reader
+	Client        *minio.Client
+	ID            string
+	ContentLength int64
 }
