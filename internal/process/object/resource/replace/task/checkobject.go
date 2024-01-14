@@ -6,7 +6,7 @@ import (
 
 	"github.com/minio/minio-go/v7"
 
-	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/create/task/checkobject"
+	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/replace/task/checkobject"
 	"github.com/spacelift-io/homework-object-storage/internal/service/storage"
 )
 

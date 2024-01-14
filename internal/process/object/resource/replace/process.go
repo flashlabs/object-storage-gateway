@@ -1,15 +1,15 @@
-package create
+package replace
 
 import (
 	"context"
 	"fmt"
 
-	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/create/task"
-	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/create/task/checkbucket"
-	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/create/task/checkobject"
-	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/create/task/client"
-	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/create/task/createbucket"
-	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/create/task/upload"
+	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/replace/task"
+	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/replace/task/checkbucket"
+	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/replace/task/checkobject"
+	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/replace/task/client"
+	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/replace/task/createbucket"
+	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/replace/task/upload"
 )
 
 func Execute(c context.Context, input Input) (Output, error) {

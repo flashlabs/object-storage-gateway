@@ -3,7 +3,7 @@ package task
 import (
 	"context"
 
-	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/create/task/client"
+	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/replace/task/client"
 	"github.com/spacelift-io/homework-object-storage/internal/service/storage"
 )
 

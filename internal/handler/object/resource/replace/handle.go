@@ -1,4 +1,4 @@
-package create
+package replace
 
 import (
 	"log"
@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	process "github.com/spacelift-io/homework-object-storage/internal/process/object/resource/create"
+	process "github.com/spacelift-io/homework-object-storage/internal/process/object/resource/replace"
 )
 
 func Handle(w http.ResponseWriter, r *http.Request) {
