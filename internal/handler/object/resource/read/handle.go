@@ -24,6 +24,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	})
 	if err != nil && !errors.Is(err, pkg.ErrObjectNotExists) {
 		log.Println("Read process execution ended with error", err)
+		w.WriteHeader(http.StatusNotFound)
 	}
 
 	if err != nil && errors.Is(err, pkg.ErrObjectNotExists) {

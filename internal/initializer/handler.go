@@ -1,7 +1,6 @@
 package initializer
 
 import (
-	"context"
 	"log"
 	"net/http"
 
@@ -12,7 +11,7 @@ import (
 	objectResourceReplace "github.com/spacelift-io/homework-object-storage/internal/handler/object/resource/replace"
 )
 
-func Handler(c context.Context, r *mux.Router) error {
+func Handler(r *mux.Router) error {
 	log.Println("Initializing handlers")
 
 	r.HandleFunc(objectResource.PatternPUT, objectResourceReplace.Handle).Methods(http.MethodPut)
