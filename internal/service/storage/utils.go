@@ -6,6 +6,7 @@ import (
 	"github.com/minio/minio-go/v7"
 
 	"github.com/spacelift-io/homework-object-storage/internal/registry"
+	"github.com/spacelift-io/homework-object-storage/pkg"
 )
 
 const (
@@ -14,8 +15,12 @@ const (
 	ObjectLocking = true
 )
 
-func ClientByID(id string) *minio.Client {
-	return registry.Shards[ShardByID(id)].Client
+func ClientByID(id string) (*minio.Client, error) {
+	if s, ok := registry.Shards[ShardByID(id)]; ok {
+		return s.Client, nil
+	}
+
+	return nil, pkg.ErrNoStorageClientForGivenID
 }
 
 func ShardByID(id string) uint8 {

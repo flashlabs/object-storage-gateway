@@ -80,7 +80,9 @@ func Shards(c context.Context) error {
 			return fmt.Errorf("error while executing minio.New: %w", err)
 		}
 
-		shards[uint8(containerNum)] = structs.Storage{
+		// shards indexes are zero based
+		shardID := uint8(containerNum - 1)
+		shards[shardID] = structs.Storage{
 			Client: minioClient,
 		}
 	}

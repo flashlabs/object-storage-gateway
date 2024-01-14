@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/replace/task/client"
+	"github.com/spacelift-io/homework-object-storage/internal/process/object/resource/read/task/client"
 	"github.com/spacelift-io/homework-object-storage/internal/service/storage"
 )
 
