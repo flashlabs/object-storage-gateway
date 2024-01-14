@@ -44,6 +44,8 @@ services:
         ipv4_address: 169.253.0.5
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
+#    uncomment for local development
+#    - ./:/app
 
 networks:
   amazin-object-storage:
