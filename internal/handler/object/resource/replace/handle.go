@@ -12,6 +12,7 @@ import (
 func Handle(w http.ResponseWriter, r *http.Request) {
 	log.Println("HTTP create resource handler started")
 
+	s := http.StatusCreated
 	vars := mux.Vars(r)
 	log.Printf("Processing object with ID %q\n", vars["id"])
 
@@ -21,12 +22,11 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		ContentLength: r.ContentLength,
 	})
 	if err != nil {
-		handleFailure(w, "Create process ended with error", http.StatusInternalServerError, err)
+		log.Println("Create process ended with error", err)
 
-		return
+		s = http.StatusInternalServerError
 	}
 
-	s := http.StatusCreated
 	if out.Replaced {
 		s = http.StatusNoContent
 	}
@@ -34,15 +34,4 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(s)
 
 	log.Println("HTTP create resource handler ended")
-}
-
-func handleFailure(w http.ResponseWriter, message string, status int, err error) {
-	log.Println(message, err)
-
-	w.WriteHeader(status)
-
-	_, err = w.Write([]byte(message))
-	if err != nil {
-		log.Println("Error while writing to http.ResponseWriter", err)
-	}
 }

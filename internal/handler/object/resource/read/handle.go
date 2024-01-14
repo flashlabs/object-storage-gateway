@@ -42,20 +42,11 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 
 		_, err = io.Copy(w, entity)
 		if err != nil {
-			handleFailure(w, "Copying entity into the writer ended with error", http.StatusInternalServerError, err)
+			log.Println("Copying entity into the writer ended with error", err)
+
+			w.WriteHeader(http.StatusInternalServerError)
 		}
 	}
 
 	log.Println("HTTP read resource handler ended")
-}
-
-func handleFailure(w http.ResponseWriter, message string, status int, err error) {
-	log.Println(message, err)
-
-	w.WriteHeader(status)
-
-	_, err = w.Write([]byte(message))
-	if err != nil {
-		log.Println("Error while writing to http.ResponseWriter", err)
-	}
 }
