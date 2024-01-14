@@ -23,6 +23,10 @@ var (
 	image             = "minio/minio"
 )
 
+const (
+	apiPort = 9000
+)
+
 type connParams struct {
 	Endpoint  string
 	AccessKey string
@@ -105,7 +109,7 @@ func connectionParams(c context.Context, cli *client.Client, container types.Con
 	}
 
 	return connParams{
-		Endpoint:  address,
+		Endpoint:  fmt.Sprintf("%s:%d", address, apiPort),
 		AccessKey: envs["MINIO_ACCESS_KEY"],
 		SecretKey: envs["MINIO_SECRET_KEY"],
 		SSL:       false,
