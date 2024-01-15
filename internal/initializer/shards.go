@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/client"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
@@ -20,11 +21,12 @@ import (
 
 var (
 	containerNumRegex = regexp.MustCompile(`[0-9]+`)
-	image             = "minio/minio"
 )
 
 const (
-	apiPort = 9000
+	apiPort       = 9000
+	containerName = "amazin-object-storage-node"
+	image         = "minio/minio"
 )
 
 type connParams struct {
@@ -42,10 +44,9 @@ func Shards(c context.Context) error {
 		return fmt.Errorf("error while executing client.NewClientWithOpts: %w", err)
 	}
 
-	// TODO: filter by image or by name part
-	containers, err := cli.ContainerList(c, types.ContainerListOptions{})
+	containers, err := listContainers(c, cli)
 	if err != nil {
-		return fmt.Errorf("error while executing cli.ContainerList: %w", err)
+		return fmt.Errorf("error while executing listContainers: %w", err)
 	}
 
 	shards := make(map[uint8]structs.Storage)
@@ -94,6 +95,21 @@ func Shards(c context.Context) error {
 	registry.Shards = shards
 
 	return nil
+}
+
+func listContainers(c context.Context, cli *client.Client) ([]types.Container, error) {
+	args := filters.NewArgs()
+	args.Add("name", containerName)
+
+	list, err := cli.ContainerList(c, types.ContainerListOptions{
+		All:     true, // Include stopped containers as well
+		Filters: args},
+	)
+	if err != nil {
+		return nil, fmt.Errorf("error while executing cli.ContainerList: %w", err)
+	}
+
+	return list, nil
 }
 
 func connectionParams(c context.Context, cli *client.Client, container types.Container) (connParams, error) {
