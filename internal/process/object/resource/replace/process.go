@@ -14,7 +14,7 @@ import (
 
 func Execute(c context.Context, input Input) (Output, error) {
 	// get storage client
-	clientOut, err := task.Client(c, client.Input{ID: input.Vars["id"]})
+	clientOut, err := task.Client(client.Input{ID: input.Vars["id"]})
 	if err != nil {
 		return Output{}, fmt.Errorf("error while executing task.Client: %w", err)
 	}
